@@ -1,2 +1,19 @@
 <!doctype html>
-<body> <script src = "src/index.js"></script></body>
+<body>
+  <script>
+    const yo = require('yo-yo')
+    const {ipcRenderer} = require('electron');
+    let el = null
+    let view = require('./src/index.js')(ipcRenderer.send)
+    
+    function update (_, s) {
+      if (el) 
+        return yo.update(el, view(s))
+      el = view(s)
+      return document.body.appendChild(el)
+    }
+    
+    ipcRenderer.on('state', update)
+    ipcRenderer.send('get-state')
+  </script>
+</body>
