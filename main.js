@@ -1,3 +1,4 @@
+require('electron-reload')(__dirname); // refresh renderer process on updates
 const ipc = require('./lib/spawn-window')(`file://${__dirname}/index.html`)
 
 // set up your state here!
@@ -14,8 +15,4 @@ ipc.on('add-random-number', (event, ...args) => {
   event.sender.send('state', state)
 })
 
-ipc.on('get-state', (event, arg) => {
-  event.sender.send('state', state)
-})
-
-require('electron-reload')(__dirname); // DEBUG
+ipc.on('get-state', event => event.sender.send('state', state))

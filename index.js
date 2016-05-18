@@ -1,12 +1,12 @@
 const yo = require('yo-yo')
 
-function app (emitF) {
+function app (emit) {
 
   function view (state) {
 
     // events bubble up
     function onclick () {
-      emitF('add-random-number')
+      emit('add-random-number')
     }
 
     return yo`<div>
