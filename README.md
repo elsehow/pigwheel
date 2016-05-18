@@ -22,13 +22,13 @@ Pigwheel relies on Electron, using [electron-reload](https://www.npmjs.com/packa
 
 
 ## Why?
-Electron doesn't t need to bundle client-side javascript - just reads it straight from disk. A good bit faster, and no need for browser plugins or browserify/webpack plugins. Electron renderer provides a vanilla chromium environment for you.
+Electron doesn't need to bundle client-side javascript. It reads the renderer's .js files straight from disk. A good bit faster than bundling, and no browser plugins or browserify/webpack plugins. 
 
-Plus, you can communicate with a node backend using Electron's IPC. No need for setting hassling with sockets or HTTP - just pass values!
+And, you can communicate with a node backend using Electron's IPC. No need for hassling with sockets or HTTP - just pass values!
 
 This example uses [yo-yo](https://github.com/maxogden/yo-yo) for unfancy (React-less) virtual-dom.
 
-Note: Instead of defoncing things, Pighweel relies on Electron IPC to update the state in the Node backend, where it will be safe even when the renderer process is totally refreshed.
+Note: Instead of defoncing things, Pighweel relies on Electron IPC to update the state in the Node backend. It will be safe there, even when the renderer process is reloaded.
 
 ## License
 BSD
