@@ -14,7 +14,7 @@ npm install
 
 To run it, just `npm start`. Click around a bit.
 
-Start editing `src/index.js`. Live reloading, just* like figwheel.
+Start editing `index.js`. Live reloading, just* like figwheel.
 
 ## In a word
 

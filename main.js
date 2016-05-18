@@ -1,71 +1,21 @@
-const electron = require('electron')
-require('electron-reload')(__dirname); // DEBUG
-const {ipcMain} = require('electron');
+const ipc = require('./lib/spawn-window')(`file://${__dirname}/index.html`)
 
 // set up your state here!
-let state = []
+// this will be 'defonced', 
+// by virtue of main process not getting reloaded 
+// even when renderer process gets reloaded.
+let state = [] // initial state
 // renderer will emit events on the ipc
-ipcMain.on('add-random-number', (event, ...args) => {
-  // now use these evnts to update the state
+ipc.on('add-random-number', (event, ...args) => {
+  // use this event to update the state
   state.push(Math.random())
-  // and emit a 'state' event with the new state
+  // and emit a 'state' event with the updated state
+  // (see also: redux/etc)
   event.sender.send('state', state)
 })
 
-ipcMain.on('get-state', (event, arg) => {
+ipc.on('get-state', (event, arg) => {
   event.sender.send('state', state)
 })
 
-
-// Module to control application life.
-const app = electron.app
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
-
-function createWindow () {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
-
-  // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/index.html`)
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools()
-
-  // Emitted when the window is closed.
-  mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null
-  })
-}
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
-
-// Quit when all windows are closed.
-app.on('window-all-closed', function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
-
-app.on('activate', function () {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow()
-  }
-})
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+require('electron-reload')(__dirname); // DEBUG

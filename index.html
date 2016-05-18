@@ -4,7 +4,7 @@
     const yo = require('yo-yo')
     const {ipcRenderer} = require('electron');
     let el = null
-    let view = require('./src/index.js')(ipcRenderer.send)
+    let view = require('./index.js')(ipcRenderer.send)
     
     function update (_, s) {
       if (el) 
